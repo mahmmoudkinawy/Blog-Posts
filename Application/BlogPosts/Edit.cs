@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Core;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Persistence;
@@ -9,12 +10,12 @@ namespace Application.BlogPosts
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public BlogPost BlogPost { get; set; }
         }
 
-        public class Hanlder : IRequestHandler<Command>
+        public class Hanlder : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -24,15 +25,21 @@ namespace Application.BlogPosts
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var blogPost = await _context.BlogPosts.FindAsync(request.BlogPost.Id);
 
+                if (blogPost == null)
+                    return null;
+
                 _mapper.Map(request.BlogPost, blogPost);
 
-                await _context.SaveChangesAsync();
+                var result =  await _context.SaveChangesAsync() > 0;
 
-                return Unit.Value;
+                if (!result)
+                    return Result<Unit>.Failure("Failed to update blog post");
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
 
