@@ -1,4 +1,5 @@
 ﻿using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 using System.Threading;
@@ -11,6 +12,14 @@ namespace Application.BlogPosts
         public class Command : IRequest
         {
             public BlogPost BlogPost { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.BlogPost).SetValidator(new BlogPostValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command>
