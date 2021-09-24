@@ -1,4 +1,5 @@
 using Application.BlogPosts;
+using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,7 @@ namespace API
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
