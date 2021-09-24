@@ -1,7 +1,8 @@
-﻿using Domain;
+﻿using Application.BlogPosts;
+using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,17 +10,26 @@ namespace API.Controllers
 {
     public class BlogPostsController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly IMediator _mediator;
 
-        public BlogPostsController(DataContext context)
+        public BlogPostsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
+        [HttpGet]
         public async Task<ActionResult<List<BlogPost>>> GetBlogPosts()
         {
-            return Ok(await _context.BlogPosts.ToListAsync());
+            return Ok(await _mediator.Send(new List.Query()));
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BlogPost>> GetBlogPost(Guid id)
+        {
+            return Ok(await _mediator.Send(new Details.Query { Id = id }));
+        }
+
+
 
     }
 }
