@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "14c894e0-193b-4b83-b0e6-9e72af3ce700",
+		"name": "Blog Posts Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Blog Posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/blogposts/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"blogposts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Blog Post with id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/blogposts/0d45f492-0d34-456e-7f66-08d97f7d71ab",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"blogposts",
+						"0d45f492-0d34-456e-7f66-08d97f7d71ab"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Blog Post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\");\r",
+							"\r",
+							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"{{$guid}}\",\r\n        \"title\": \"This is title 4\",\r\n        \"content\": \"This is content 4, This is content 4, This is content 4,\",\r\n        \"summary\": \"This is summary 4\",\r\n        \"date\": \"{{activityDate}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/blogposts/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"blogposts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Blog Post with id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"This is title 1 updated\",\r\n    \"content\": \"This is content 1, This is content 1, This is content 1, updated\",\r\n    \"summary\": \"This is summary 1 updated\",\r\n    \"date\": \"2021-09-24T19:05:00.3806009\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/blogposts/0d45f492-0d34-456e-7f66-08d97f7d71ab",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"blogposts",
+						"0d45f492-0d34-456e-7f66-08d97f7d71ab"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove a Blog Post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/blogposts/cfdf3f16-82da-42e6-bc8c-d35c22375fb5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"blogposts",
+						"cfdf3f16-82da-42e6-bc8c-d35c22375fb5"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://localhost:5001"
+		}
+	]
+}
