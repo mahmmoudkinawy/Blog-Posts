@@ -1,5 +1,6 @@
 ﻿using Application.BlogPosts;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace API.Controllers
 {
     public class BlogPostsController : BaseApiController
     {
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<BlogPost>>> GetBlogPosts()
         {
