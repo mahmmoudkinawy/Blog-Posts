@@ -10,13 +10,14 @@ namespace API.Controllers
 {
     public class BlogPostsController : BaseApiController
     {
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<BlogPost>>> GetBlogPosts()
         {
             return HandleResult(await Mediator.Send(new List.Query()));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<BlogPost>> GetBlogPost(Guid id)
         {
